@@ -15,7 +15,11 @@ def fetch_broadcasts():
 
 @sio.on("send_message")
 def send_message(message):
-    session = controllers.deserialize(request.cookies.get("session"))
+    try:
+        session_cookie = request.cookies.get("session")
+        session = controllers.deserialize(session_cookie)
+    except Exception:
+        return json.dumps({ "status": "error", "message": "Not authorized." })
     if (session is not None and controllers.is_authorized(session["identity.id"])):
         data = controllers.parse_sent(message, session["identity.id"])
         emit("receive_message", data, broadcast = True)
