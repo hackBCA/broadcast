@@ -46,9 +46,10 @@ def deserialize(session):
                 signer_kwargs={'key_derivation': 'hmac', 'digest_method': sha1}
             )
             session_data = s.loads(session)
+            return session_data
         except BadTimeSignature:
-            return None
-    return session_data
+            pass # try the next one
+    return None
 
 def is_authorized(uid):
     try:
