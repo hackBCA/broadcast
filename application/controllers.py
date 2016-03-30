@@ -47,7 +47,7 @@ def deserialize(session):
             )
             session_data = s.loads(session)
         except BadTimeSignature:
-            return None
+            pass # try the next one
     return session_data
 
 def is_authorized(uid):
