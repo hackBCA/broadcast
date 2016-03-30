@@ -2,6 +2,7 @@ eventlet==0.18.4
 Flask==0.10.1
 Flask-SocketIO==2.2
 greenlet==0.4.9
+gunicorn==19.4.5
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
