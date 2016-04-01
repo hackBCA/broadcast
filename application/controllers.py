@@ -41,9 +41,9 @@ def deserialize(session):
     for key in CONFIG["DESERIALIZE_KEYS"]:
         try:
             s = URLSafeTimedSerializer(
-                key, salt='cookie-session',
-                serializer=session_json_serializer,
-                signer_kwargs={'key_derivation': 'hmac', 'digest_method': sha1}
+                key, salt = "cookie-session",
+                serializer = session_json_serializer,
+                signer_kwargs = {"key_derivation": "hmac", "digest_method": sha1}
             )
             session_data = s.loads(session)
             return session_data
