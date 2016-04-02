@@ -8,6 +8,12 @@ from bson.errors import InvalidId
 from hashlib import sha1
 from flask.sessions import session_json_serializer
 from itsdangerous import URLSafeTimedSerializer, BadTimeSignature
+import pytz
+
+def utc_to_local(utc_dt):
+    local_tz = pytz.timezone("US/Eastern")
+    local_dt = utc_dt.replace(tzinfo=pytz.utc).astimezone(local_tz)
+    return local_tz.normalize(local_dt)
 
 def get_all_broadcasts():
     broadcasts = models.BroadcastMessages.objects()
@@ -33,8 +39,10 @@ def choose_sender_name(name):
     return name if CONFIG["SENDER_PERSONAL_NAME"] else CONFIG["SENDER_NAME"]
 
 def parse_timestamp(timestamp):
-    return datetime.datetime.fromtimestamp(
-        timestamp
+    return utc_to_local(
+        datetime.datetime.fromtimestamp(
+            timestamp
+        )
     ).strftime("%-m/%-d/%Y %-I:%M %p")
 
 def deserialize(session):
